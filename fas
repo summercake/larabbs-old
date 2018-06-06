@@ -1,0 +1,528 @@
+[33mcommit 9e32b66b3161bc668be08bf77ec2bbb8026c9d0e[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 10:51:43 2018 +0000
+
+    Add queue for translate slug
+
+ app/Jobs/TranslateSlug.php                                         |  44 [32m++++++++++++++++++++++++++++++++[m
+ app/Observers/TopicObserver.php                                    |  12 [32m++++++[m[31m---[m
+ composer.json                                                      |   4 [32m++[m[31m-[m
+ composer.lock                                                      | 177 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ config/horizon.php                                                 |  94 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ database/migrations/2018_04_01_102502_create_failed_jobs_table.php |  35 [32m++++++++++++++++++++++++++[m
+ public/vendor/horizon/css/app.css                                  |   7 [32m++++++[m
+ public/vendor/horizon/css/app.css.map                              |   1 [32m+[m
+ public/vendor/horizon/img/favicon.png                              | Bin [31m0[m -> [32m648[m bytes
+ public/vendor/horizon/img/horizon.svg                              |  13 [32m++++++++++[m
+ public/vendor/horizon/img/sprite.svg                               |   1 [32m+[m
+ public/vendor/horizon/js/app.js                                    |   2 [32m++[m
+ public/vendor/horizon/js/app.js.map                                |   1 [32m+[m
+ public/vendor/horizon/mix-manifest.json                            |   6 [32m+++++[m
+ 14 files changed, 392 insertions(+), 5 deletions(-)
+
+[33mcommit f15e1a987dff738caa377b2a23d471258886de45[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 10:16:56 2018 +0000
+
+    Auto translate slug
+
+ app/Handlers/SlugTranslateHandler.php        |  75 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ app/Http/Controllers/TopicsController.php    |  10 [32m+++++++[m[31m---[m
+ app/Models/Topic.php                         |   5 [32m+++++[m
+ app/Observers/TopicObserver.php              |   8 [32m+++++++[m[31m-[m
+ composer.json                                |   4 [32m+++[m[31m-[m
+ composer.lock                                | 163 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ config/services.php                          |   5 [32m++++[m[31m-[m
+ resources/views/topics/_topic_list.blade.php |   2 [32m+[m[31m-[m
+ resources/views/users/_topics.blade.php      |   2 [32m+[m[31m-[m
+ routes/web.php                               |   4 [32m+++[m[31m-[m
+ 10 files changed, 268 insertions(+), 10 deletions(-)
+
+[33mcommit 9326304d8181dd984bde7d0e4a9a8e4ae2f94553[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 09:11:28 2018 +0000
+
+    Author can delete topic
+
+ app/Models/User.php                   |  5 [32m+++++[m
+ app/Policies/TopicPolicy.php          |  6 [32m++++[m[31m--[m
+ resources/views/topics/show.blade.php | 16 [32m++++++++++[m[31m------[m
+ 3 files changed, 19 insertions(+), 8 deletions(-)
+
+[33mcommit 7c9cb41bbdd89b43234785b36483770c721a285c[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 08:30:32 2018 +0000
+
+    User can edit their own topic
+
+ app/Http/Controllers/TopicsController.php        | 5 [32m+++[m[31m--[m
+ app/Policies/TopicPolicy.php                     | 4 [32m++[m[31m--[m
+ resources/views/topics/create_and_edit.blade.php | 4 [32m++[m[31m--[m
+ 3 files changed, 7 insertions(+), 6 deletions(-)
+
+[33mcommit d8829f1733e4d8a682690a0386c473611059a9dd[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 08:08:37 2018 +0000
+
+    Person XSS injection
+
+ app/Observers/TopicObserver.php |   1 [32m+[m
+ composer.json                   |   1 [32m+[m
+ composer.lock                   | 124 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ config/purifier.php             |  17 [32m+++++++++++++++++[m
+ 4 files changed, 142 insertions(+), 1 deletion(-)
+
+[33mcommit 167b0d6c483f2588809dfd8565b0978e7e8200c5[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 07:41:47 2018 +0000
+
+    Top detail page
+
+ app/Http/Controllers/TopicsController.php |   6 [32m+[m[31m-[m
+ public/css/app.css                        | 467 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ resources/assets/sass/_topic_body.scss    | 308 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ resources/assets/sass/app.scss            |  19 [32m++++++[m[31m-[m
+ resources/views/layouts/app.blade.php     |   2 [32m+[m[31m-[m
+ resources/views/topics/show.blade.php     |  94 [32m+++++++++++++++[m[31m----------------[m
+ 6 files changed, 843 insertions(+), 53 deletions(-)
+
+[33mcommit 12b12583314c24a3fba7500e887104cc5d7a0f75[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 07:20:04 2018 +0000
+
+    User can upload topic image
+
+ app/Http/Controllers/TopicsController.php                          |  26 [32m+++++++++++++++++++++++++[m[31m-[m
+ public/uploads/images/topics/201804/01/1_1522566807_58ihfp3b7D.jpg | Bin [31m0[m -> [32m96502[m bytes
+ public/uploads/images/topics/201804/01/1_1522566868_OiJ11bOC0f.png | Bin [31m0[m -> [32m441384[m bytes
+ public/uploads/images/topics/201804/01/1_1522566918_WgoHcDexa6.png | Bin [31m0[m -> [32m441384[m bytes
+ public/uploads/images/topics/201804/01/1_1522567045_yH9vc6AkyP.png | Bin [31m0[m -> [32m115106[m bytes
+ public/uploads/images/topics/201804/01/1_1522567113_uocT7HLLMR.png | Bin [31m0[m -> [32m535730[m bytes
+ resources/views/topics/create_and_edit.blade.php                   |   8 [32m++++++++[m
+ routes/web.php                                                     |   2 [32m++[m
+ 8 files changed, 35 insertions(+), 1 deletion(-)
+
+[33mcommit 570a3e4bcf4ce9423b3f21cd1fec3fe0c7c2017b[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 06:57:08 2018 +0000
+
+    WYSIWYG Editor
+
+ .DS_Store                                        |  Bin [31m0[m -> [32m6148[m bytes
+ public/css/.DS_Store                             |  Bin [31m0[m -> [32m6148[m bytes
+ public/css/simditor.css                          |  746 [32m++++++++++++++++++++[m
+ public/js/.DS_Store                              |  Bin [31m0[m -> [32m6148[m bytes
+ public/js/hotkeys.js                             |  241 [32m+++++++[m
+ public/js/module.js                              |  172 [32m+++++[m
+ public/js/simditor.js                            | 5585 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ public/js/uploader.js                            |  261 [32m+++++++[m
+ resources/.DS_Store                              |  Bin [31m0[m -> [32m6148[m bytes
+ resources/assets/.DS_Store                       |  Bin [31m0[m -> [32m6148[m bytes
+ resources/assets/editor/.DS_Store                |  Bin [31m0[m -> [32m6148[m bytes
+ resources/assets/editor/css/.DS_Store            |  Bin [31m0[m -> [32m6148[m bytes
+ resources/assets/editor/css/simditor.css         |  746 [32m++++++++++++++++++++[m
+ resources/assets/editor/js/.DS_Store             |  Bin [31m0[m -> [32m6148[m bytes
+ resources/assets/editor/js/hotkeys.js            |  241 [32m+++++++[m
+ resources/assets/editor/js/module.js             |  172 [32m+++++[m
+ resources/assets/editor/js/simditor.js           | 5585 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ resources/assets/editor/js/uploader.js           |  261 [32m+++++++[m
+ resources/views/layouts/app.blade.php            |    2 [32m+[m
+ resources/views/topics/create_and_edit.blade.php |   19 [32m+[m
+ webpack.mix.js                                   |    5 [32m+[m[31m-[m
+ 21 files changed, 14035 insertions(+), 1 deletion(-)
+
+[33mcommit 749f385c57aba2cbda24292fadc69dc834591570[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 06:30:11 2018 +0000
+
+    User can create topic
+
+ app/Http/Controllers/TopicsController.php        | 12 [32m++++++++[m[31m----[m
+ app/Http/Requests/TopicRequest.php               | 10 [32m+++++[m[31m-----[m
+ app/Models/Topic.php                             |  2 [32m+[m[31m-[m
+ app/Observers/TopicObserver.php                  |  7 [32m++++++[m[31m-[m
+ bootstrap/helpers.php                            |  6 [32m++++++[m
+ resources/views/layouts/_header.blade.php        |  5 [32m+++++[m
+ resources/views/topics/_sidebar.blade.php        |  8 [32m+++++++[m[31m-[m
+ resources/views/topics/create_and_edit.blade.php | 82 [32m++++++++++++++++++++++++++++[m[31m------------------------------------------------------[m
+ 8 files changed, 66 insertions(+), 66 deletions(-)
+
+[33mcommit 57fd7a7aa8f8774ec7c7c24d93bf5fac726bac44[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 05:30:13 2018 +0000
+
+    List topics created by user
+
+ app/Models/User.php                       |  6 [32m++++++[m
+ public/css/app.css                        | 35 [32m+++++++++++++++++++++++++++++++++++[m
+ resources/assets/sass/app.scss            | 37 [32m++++++++++++++++++++++++++++++++++++[m[31m-[m
+ resources/views/layouts/_header.blade.php |  8 [32m++++++++[m
+ resources/views/users/_topics.blade.php   | 23 [32m+++++++++++++++++++++++[m
+ resources/views/users/show.blade.php      |  6 [32m+++++[m[31m-[m
+ 6 files changed, 113 insertions(+), 2 deletions(-)
+
+[33mcommit a29f615b813952dd24c3d44ccbb6e9ff1bf2c365[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 04:54:21 2018 +0000
+
+    Topic order
+
+ app/Http/Controllers/CategoriesController.php |  7 [32m+++++[m[31m--[m
+ app/Http/Controllers/TopicsController.php     |  4 [32m++[m[31m--[m
+ app/Models/Topic.php                          | 29 [32m+++++++++++++++++++++++++++++[m
+ resources/views/topics/index.blade.php        |  4 [32m++[m[31m--[m
+ 4 files changed, 38 insertions(+), 6 deletions(-)
+
+[33mcommit f9608653f0b71c7701871f9893a36fec93b7afa4[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 04:33:36 2018 +0000
+
+    Category topic list
+
+ app/Http/Controllers/CategoriesController.php | 19 [32m+++++++++++++++++++[m
+ composer.json                                 |  1 [32m+[m
+ composer.lock                                 | 65 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ public/css/app.css                            | 18 [32m++++++++++++[m[31m------[m
+ resources/assets/sass/app.scss                |  2 [32m+[m[31m-[m
+ resources/views/layouts/_header.blade.php     |  6 [32m+++++[m[31m-[m
+ resources/views/topics/_topic_list.blade.php  |  2 [32m+[m[31m-[m
+ resources/views/topics/index.blade.php        |  7 [32m++++++[m[31m-[m
+ routes/web.php                                |  4 [32m+++[m[31m-[m
+ 9 files changed, 112 insertions(+), 12 deletions(-)
+
+[33mcommit 84952343469700e3ee253ec45419d0c31f51a019[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 03:46:31 2018 +0000
+
+    Topic index page
+
+ app/Http/Controllers/TopicsController.php    |   4 [32m+[m[31m--[m
+ app/Models/Topic.php                         |  10 [32m++++++++[m
+ composer.json                                |   1 [32m+[m
+ composer.lock                                | 131 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ config/debugbar.php                          | 201 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ public/css/app.css                           |  33 [32m+++++++++++++++++++++++++[m
+ resources/assets/sass/app.scss               |  31 [32m+++++++++++++++++++++++[m
+ resources/views/topics/_sidebar.blade.php    |   1 [32m+[m
+ resources/views/topics/_topic_list.blade.php |  52 [32m+++++++++++++++++++++++++++++++++++++++[m
+ resources/views/topics/index.blade.php       |  67 [32m+++++++++++++++[m[31m-----------------------------------[m
+ storage/debugbar/.gitignore                  |   2 [32m++[m
+ 11 files changed, 482 insertions(+), 51 deletions(-)
+
+[33mcommit 94241426c8931830b4525586063767098430b183[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 01:22:27 2018 +0000
+
+    Seeding topics and users data
+
+ app/Models/Category.php              |  2 [32m+[m[31m-[m
+ database/factories/TopicFactory.php  | 14 [32m+++++++++++++[m[31m-[m
+ database/factories/UserFactory.php   | 18 [32m+++++++++++++++++[m[31m-[m
+ database/seeds/DatabaseSeeder.php    |  4 [32m++[m[31m--[m
+ database/seeds/TopicsTableSeeder.php | 30 [32m+++++++++++++++++++++++++++++[m[31m-[m
+ database/seeds/UsersTableSeeder.php  | 52 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ 6 files changed, 114 insertions(+), 6 deletions(-)
+
+[33mcommit 781ca9068aa1fb1583682128d7466b1ddea285fd[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 00:44:49 2018 +0000
+
+    Generated topics
+
+ app/Http/Controllers/TopicsController.php                     | 60 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ app/Http/Requests/Request.php                                 | 14 [32m++++++++++++++[m
+ app/Http/Requests/TopicRequest.php                            | 41 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ app/Models/Model.php                                          | 19 [32m+++++++++++++++++++[m
+ app/Models/Topic.php                                          |  8 [32m++++++++[m
+ app/Observers/TopicObserver.php                               | 21 [32m+++++++++++++++++++++[m
+ app/Observers/UserObserver.php                                | 21 [32m+++++++++++++++++++++[m
+ app/Policies/Policy.php                                       | 22 [32m++++++++++++++++++++++[m
+ app/Policies/TopicPolicy.php                                  | 20 [32m++++++++++++++++++++[m
+ app/Providers/AppServiceProvider.php                          |  5 [32m++++[m[31m-[m
+ app/Providers/AuthServiceProvider.php                         |  1 [32m+[m
+ database/factories/TopicFactory.php                           |  9 [32m+++++++++[m
+ database/migrations/2018_04_01_002441_create_topics_table.php | 30 [32m++++++++++++++++++++++++++++++[m
+ database/seeds/DatabaseSeeder.php                             |  1 [32m+[m
+ database/seeds/TopicsTableSeeder.php                          | 20 [32m++++++++++++++++++++[m
+ resources/views/layouts/_header.blade.php                     |  2 [32m+[m[31m-[m
+ resources/views/topics/create_and_edit.blade.php              | 84 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ resources/views/topics/index.blade.php                        | 61 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ resources/views/topics/show.blade.php                         | 62 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ routes/web.php                                                |  2 [32m++[m
+ 20 files changed, 501 insertions(+), 2 deletions(-)
+
+[33mcommit 35e2f348bef6f4a08440b01a15651738f2964971[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 00:19:03 2018 +0000
+
+    Add generator
+
+ composer.json |  1 [32m+[m
+ composer.lock | 59 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ 2 files changed, 59 insertions(+), 1 deletion(-)
+
+[33mcommit 91e9af2e7dcb151a89348614b1ba99925bf4c3ad[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Sun Apr 1 00:15:50 2018 +0000
+
+    Create categories
+
+ app/Http/Requests/UserRequest.php                                 |  2 [32m++[m
+ app/Models/Category.php                                           | 12 [32m++++++++++++[m
+ database/migrations/2018_03_31_233251_create_categories_table.php | 34 [32m++++++++++++++++++++++++++++++++++[m
+ database/migrations/2018_04_01_000955_seed_categories_data.php    | 46 [32m++++++++++++++++++++++++++++++++++++++++++++++[m
+ 4 files changed, 94 insertions(+)
+
+[33mcommit b9320657e26f190288c2f2ae49cb7a92eea9108f[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Fri Mar 30 09:35:07 2018 +0000
+
+    Only authorized user can edit user profile
+
+ app/Http/Controllers/UsersController.php |  7 [32m+++++++[m
+ app/Policies/UserPolicy.php              | 26 [32m++++++++++++++++++++++++++[m
+ app/Providers/AuthServiceProvider.php    |  1 [32m+[m
+ 3 files changed, 34 insertions(+)
+
+[33mcommit c79a427045024947fbc842a8782e6de6492dd64a[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Fri Mar 30 09:10:48 2018 +0000
+
+    User can upload avatar
+
+ app/Handlers/ImageUploadHandler.php       | 67 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ app/Http/Controllers/UsersController.php  | 15 [32m++++++++++++[m[31m---[m
+ app/Http/Requests/UserRequest.php         |  1 [32m+[m
+ app/Models/User.php                       |  2 [32m+[m[31m-[m
+ composer.json                             |  1 [32m+[m
+ composer.lock                             |  2 [32m+[m[31m-[m
+ config/image.php                          | 20 [32m++++++++++++++++++++[m
+ public/css/app.css                        |  6 [32m++++++[m
+ public/uploads/images/avatar/.gitignore   |  2 [32m++[m
+ resources/assets/sass/app.scss            |  9 [32m+++++++++[m
+ resources/views/layouts/_header.blade.php |  2 [32m+[m[31m-[m
+ resources/views/users/edit.blade.php      | 11 [32m++++++++++[m[31m-[m
+ resources/views/users/show.blade.php      |  2 [32m+[m[31m-[m
+ 13 files changed, 132 insertions(+), 8 deletions(-)
+
+[33mcommit 6ae254ea59e99fe31705132778b16620cc8839ee[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Fri Mar 30 07:46:39 2018 +0000
+
+    Basic user profile editing
+
+ app/Http/Controllers/UsersController.php                                             | 13 [32m+++++++++++++[m
+ app/Http/Requests/UserRequest.php                                                    | 42 [32m++++++++++++++++++++++++++++++++++++++++++[m
+ app/Models/User.php                                                                  |  2 [32m+[m[31m-[m
+ app/Providers/AppServiceProvider.php                                                 |  2 [32m+[m[31m-[m
+ composer.json                                                                        |  3 [32m++[m[31m-[m
+ composer.lock                                                                        | 95 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ database/migrations/2018_03_29_222931_add_avatar_and_introduction_to_users_table.php | 34 [32m++++++++++++++++++++++++++++++++++[m
+ resources/views/common/error.blade.php                                               | 10 [32m++++++++++[m
+ resources/views/layouts/_header.blade.php                                            |  5 [32m+++++[m
+ resources/views/layouts/_message.blade.php                                           | 20 [32m++++++++++++++++++++[m
+ resources/views/layouts/app.blade.php                                                |  3 [32m+[m[31m--[m
+ resources/views/users/edit.blade.php                                                 | 39 [32m+++++++++++++++++++++++++++++++++++++++[m
+ resources/views/users/show.blade.php                                                 |  4 [32m++[m[31m--[m
+ 13 files changed, 264 insertions(+), 8 deletions(-)
+
+[33mcommit baec0cf4a89a1d96c88c96e00e9775b7d04a25a3[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Thu Mar 29 22:27:29 2018 +0000
+
+    User profile page
+
+ app/Http/Controllers/UsersController.php | 13 [32m+++++++++++++[m
+ resources/views/users/show.blade.php     | 47 [32m+++++++++++++++++++++++++++++++++++++++++++++++[m
+ routes/web.php                           |  2 [32m++[m
+ 3 files changed, 62 insertions(+)
+
+[33mcommit 687eeb07201ed2770a0e332b8c01c1980c17b9ab[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Thu Mar 29 22:16:32 2018 +0000
+
+    Move user model to models
+
+ app/Http/Controllers/Auth/RegisterController.php |  4 [32m++[m[31m--[m
+ app/Models/User.php                              | 29 [32m+++++++++++++++++++++++++++++[m
+ app/User.php                                     | 29 [31m-----------------------------[m
+ config/auth.php                                  |  2 [32m+[m[31m-[m
+ config/services.php                              |  2 [32m+[m[31m-[m
+ database/factories/UserFactory.php               |  2 [32m+[m[31m-[m
+ 6 files changed, 34 insertions(+), 34 deletions(-)
+
+[33mcommit 354560fd307a4e9c3d2ae6e55c6531360cf9c147[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Thu Mar 29 21:55:07 2018 +0000
+
+    Add captcha
+
+ app/Http/Controllers/Auth/RegisterController.php |   4 [32m+++[m
+ composer.json                                    |   3 [32m+[m[31m-[m
+ composer.lock                                    | 254 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ config/captcha.php                               |  45 [32m++++++++++++++++++++++++++[m
+ public/css/app.css                               |   8 [32m+++++[m
+ resources/assets/sass/app.scss                   |   9 [32m++++++[m
+ resources/views/auth/register.blade.php          |  24 [32m+++++++++++[m[31m---[m
+ 7 files changed, 340 insertions(+), 7 deletions(-)
+
+[33mcommit 0b3e7f6652b346edcb977b95e544530607f1fcad[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Thu Mar 29 21:04:18 2018 +0000
+
+    Finish user auth
+
+ app/Http/Controllers/Auth/LoginController.php         |  2 [32m+[m[31m-[m
+ app/Http/Controllers/Auth/RegisterController.php      |  2 [32m+[m[31m-[m
+ app/Http/Controllers/Auth/ResetPasswordController.php |  2 [32m+[m[31m-[m
+ app/Http/Middleware/RedirectIfAuthenticated.php       |  2 [32m+[m[31m-[m
+ resources/views/auth/login.blade.php                  | 69 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ resources/views/auth/passwords/email.blade.php        | 47 [32m+++++++++++++++++++++++++++++++++++++++++++++++[m
+ resources/views/auth/passwords/reset.blade.php        | 70 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ resources/views/auth/register.blade.php               | 77 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ resources/views/layouts/_header.blade.php             | 29 [32m+++++++++++++++++++++++++++[m[31m--[m
+ routes/web.php                                        | 15 [32m+++++++++++++++[m
+ 10 files changed, 309 insertions(+), 6 deletions(-)
+
+[33mcommit ce5b7002e3564a8cac4feb2ba939574f5b84c53c[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Thu Mar 29 08:10:56 2018 +0000
+
+    Finish basic page layout
+
+ app/Http/Controllers/PagesController.php                                        |    13 [32m+[m
+ bootstrap/app.php                                                               |     1 [32m+[m
+ bootstrap/helpers.php                                                           |     6 [32m+[m[31m-[m
+ public/css/app.css                                                              |  8400 [32m+++++++++++++++++++++[m[31m-[m
+ public/fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.eot   |   Bin [31m0[m -> [32m20127[m bytes
+ public/fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.svg   |   288 [32m+[m
+ public/fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.ttf   |   Bin [31m0[m -> [32m45404[m bytes
+ public/fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.woff  |   Bin [31m0[m -> [32m23424[m bytes
+ public/fonts/vendor/bootstrap-sass/bootstrap/glyphicons-halflings-regular.woff2 |   Bin [31m0[m -> [32m18028[m bytes
+ public/js/app.js                                                                | 43295 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ public/mix-manifest.json                                                        |     4 [32m+[m
+ resources/assets/sass/app.scss                                                  |    48 [32m+[m
+ resources/views/layouts/_footer.blade.php                                       |     9 [32m+[m
+ resources/views/layouts/_header.blade.php                                       |    33 [32m+[m
+ resources/views/layouts/app.blade.php                                           |    34 [32m+[m
+ resources/views/pages/root.blade.php                                            |     6 [32m+[m
+ resources/views/welcome.blade.php                                               |    95 [31m-[m
+ routes/web.php                                                                  |     4 [32m+[m[31m-[m
+ yarn.lock                                                                       |  7593 [32m++++++++++++++++++++[m
+ 19 files changed, 59725 insertions(+), 104 deletions(-)
+
+[33mcommit d6fc88bc9060da5606c5c80a47456fed1ea4af04[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Thu Mar 29 07:37:17 2018 +0000
+
+    Add custom helpers
+
+ bootstrap/helpers.php | 4 [32m++++[m
+ 1 file changed, 4 insertions(+)
+
+[33mcommit 4d9b1ea2b1eb942bbf8cbda6bce1b6b14a21a8e6[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Thu Mar 29 07:35:31 2018 +0000
+
+    Adjust configuration
+
+ config/app.php | 2 [32m+[m[31m-[m
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+[33mcommit 464d161a4e047c3815b7cd961937674dead2f653[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Thu Mar 29 07:29:25 2018 +0000
+
+    Add .editorconfig
+
+ .editorconfig | 23 [32m+++++++++++++++++++++++[m
+ 1 file changed, 23 insertions(+)
+
+[33mcommit 8be98a9a43a792947d5b93d4f26129d2bdf4c359[m
+Author: summercake@qq.com <summercake@qq.com>
+Date:   Thu Mar 29 07:23:15 2018 +0000
+
+    first commit
+
+ .env.example                                                           |   35 [32m++[m
+ .gitattributes                                                         |    5 [32m+[m
+ .gitignore                                                             |   12 [32m+[m
+ app/Console/Kernel.php                                                 |   42 [32m++[m
+ app/Exceptions/Handler.php                                             |   53 [32m++[m
+ app/Http/Controllers/Auth/ForgotPasswordController.php                 |   32 [32m+[m
+ app/Http/Controllers/Auth/LoginController.php                          |   39 [32m++[m
+ app/Http/Controllers/Auth/RegisterController.php                       |   71 [32m+++[m
+ app/Http/Controllers/Auth/ResetPasswordController.php                  |   39 [32m++[m
+ app/Http/Controllers/Controller.php                                    |   13 [32m+[m
+ app/Http/Kernel.php                                                    |   61 [32m++[m
+ app/Http/Middleware/EncryptCookies.php                                 |   17 [32m+[m
+ app/Http/Middleware/RedirectIfAuthenticated.php                        |   26 [32m+[m
+ app/Http/Middleware/TrimStrings.php                                    |   18 [32m+[m
+ app/Http/Middleware/TrustProxies.php                                   |   29 [32m+[m
+ app/Http/Middleware/VerifyCsrfToken.php                                |   17 [32m+[m
+ app/Providers/AppServiceProvider.php                                   |   28 [32m+[m
+ app/Providers/AuthServiceProvider.php                                  |   30 [32m+[m
+ app/Providers/BroadcastServiceProvider.php                             |   21 [32m+[m
+ app/Providers/EventServiceProvider.php                                 |   32 [32m+[m
+ app/Providers/RouteServiceProvider.php                                 |   73 [32m+++[m
+ app/User.php                                                           |   29 [32m+[m
+ artisan                                                                |   53 [32m++[m
+ bootstrap/app.php                                                      |   55 [32m++[m
+ bootstrap/cache/.gitignore                                             |    2 [32m+[m
+ composer.json                                                          |   57 [32m++[m
+ composer.lock                                                          | 3963 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ config/app.php                                                         |  231 [32m++++++++[m
+ config/auth.php                                                        |  102 [32m++++[m
+ config/broadcasting.php                                                |   59 [32m++[m
+ config/cache.php                                                       |   94 [32m+++[m
+ config/database.php                                                    |  120 [32m++++[m
+ config/filesystems.php                                                 |   68 [32m+++[m
+ config/mail.php                                                        |  123 [32m++++[m
+ config/queue.php                                                       |   85 [32m+++[m
+ config/services.php                                                    |   38 [32m++[m
+ config/session.php                                                     |  197 [32m+++++++[m
+ config/view.php                                                        |   33 [32m++[m
+ database/.gitignore                                                    |    1 [32m+[m
+ database/factories/UserFactory.php                                     |   23 [32m+[m
+ database/migrations/2014_10_12_000000_create_users_table.php           |   35 [32m++[m
+ database/migrations/2014_10_12_100000_create_password_resets_table.php |   32 [32m+[m
+ database/seeds/DatabaseSeeder.php                                      |   16 [32m+[m
+ package.json                                                           |   21 [32m+[m
+ phpunit.xml                                                            |   31 [32m+[m
+ public/.htaccess                                                       |   21 [32m+[m
+ public/css/app.css                                                     |    9 [32m+[m
+ public/favicon.ico                                                     |    0
+ public/index.php                                                       |   60 [32m++[m
+ public/js/app.js                                                       |    1 [32m+[m
+ public/robots.txt                                                      |    2 [32m+[m
+ public/web.config                                                      |   23 [32m+[m
+ readme.md                                                              |   58 [32m++[m
+ resources/assets/js/app.js                                             |   22 [32m+[m
+ resources/assets/js/bootstrap.js                                       |   55 [32m++[m
+ resources/assets/js/components/ExampleComponent.vue                    |   23 [32m+[m
+ resources/assets/sass/_variables.scss                                  |   38 [32m++[m
+ resources/assets/sass/app.scss                                         |    9 [32m+[m
+ resources/lang/en/auth.php                                             |   19 [32m+[m
+ resources/lang/en/pagination.php                                       |   19 [32m+[m
+ resources/lang/en/passwords.php                                        |   22 [32m+[m
+ resources/lang/en/validation.php                                       |  121 [32m++++[m
+ resources/views/welcome.blade.php                                      |   95 [32m+++[m
+ routes/api.php                                                         |   18 [32m+[m
+ routes/channels.php                                                    |   16 [32m+[m
+ routes/console.php                                                     |   18 [32m+[m
+ routes/web.php                                                         |   16 [32m+[m
+ server.php                                                             |   21 [32m+[m
+ storage/app/.gitignore                                                 |    3 [32m+[m
+ storage/app/public/.gitignore                                          |    2 [32m+[m
+ storage/framework/.gitignore                                           |    8 [32m+[m
+ storage/framework/cache/.gitignore                                     |    2 [32m+[m
+ storage/framework/sessions/.gitignore                                  |    2 [32m+[m
+ storage/framework/testing/.gitignore                                   |    2 [32m+[m
+ storage/framework/views/.gitignore                                     |    2 [32m+[m
+ storage/logs/.gitignore                                                |    2 [32m+[m
+ tests/CreatesApplication.php                                           |   25 [32m+[m
+ tests/Feature/ExampleTest.php                                          |   21 [32m+[m
+ tests/TestCase.php                                                     |   10 [32m+[m
+ tests/Unit/ExampleTest.php                                             |   19 [32m+[m
+ webpack.mix.js                                                         |   15 [32m+[m
+ 81 files changed, 6960 insertions(+)
